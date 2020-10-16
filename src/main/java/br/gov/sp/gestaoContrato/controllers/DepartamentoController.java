@@ -1,6 +1,9 @@
 package br.gov.sp.gestaoContrato.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -27,13 +30,9 @@ public class DepartamentoController {
 	
     // cadastrar departamento 
 	@PostMapping
-	public ResponseEntity<?> cadastrar(
-	  @RequestBody Departamento d		
-			) {
-	
+	public ResponseEntity<?> cadastrar(@RequestBody Departamento d) {
 			d = service.cadastrar(d);
 			return ResponseEntity.ok().body(d);
-		
 	}
 	
 	
@@ -47,12 +46,28 @@ public class DepartamentoController {
 		return ResponseEntity.ok(dep);
 	}
 	
+	
+	
 	// deletar departamento
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable Integer id) {
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+	
 	
 	// get departamento id
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getById(@PathVariable Integer id) {
+		Departamento dep = service.getById(id);
+		return ResponseEntity.ok(dep);
+	}
+	
 	
 	// get all departamento
-	
+	@GetMapping
+	public ResponseEntity<?> getAll() {
+		return ResponseEntity.ok(service.getAll());
+	}
 	
 	
 }//fecha classe

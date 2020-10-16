@@ -591,8 +591,3 @@ Caused by: java.lang.Error: Unresolved compilation problems:
 2020-10-16 15:53:06.240  INFO 3932 --- [restartedMain] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
 2020-10-16 15:53:06.242  INFO 3932 --- [restartedMain] b.g.s.g.GestaoContratosApplication       : Started GestaoContratosApplication in 0.464 seconds (JVM running for 1987.643)
 2020-10-16 15:53:06.244  INFO 3932 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2020-10-16 16:05:24.648  INFO 3932 --- [RMI TCP Connection(131)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
-2020-10-16 16:05:24.781  INFO 3932 --- [RMI TCP Connection(131)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2020-10-16 16:05:24.781  INFO 3932 --- [RMI TCP Connection(131)-127.0.0.1] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
-2020-10-16 16:05:24.781  INFO 3932 --- [RMI TCP Connection(131)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown initiated...
-2020-10-16 16:05:24.785  INFO 3932 --- [RMI TCP Connection(131)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown completed.
