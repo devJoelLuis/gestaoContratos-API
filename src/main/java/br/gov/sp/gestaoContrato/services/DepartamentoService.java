@@ -15,6 +15,7 @@ import br.gov.sp.gestaoContrato.repository.DepartamentoRepository;
 @Service
 public class DepartamentoService {
 
+	private static final String NOME_DPT_JA_CADASTRADO = "Já existe um departamento com nome %s cadastrado no banco de dados.";
 	private static final String ID_NAO_ENCONTRADO = "Não foi possível encontrar um departamento com o id %s.";
 	private DepartamentoRepository repo;
 	private static final Logger logger = LoggerFactory.getLogger(DepartamentoService.class);
@@ -41,7 +42,7 @@ public class DepartamentoService {
 
 		try {
 			if (repo.existsByNome(d.getNome())) {
-				throw new DepartamentoNegocioException("O nome do departamento já existe!!!");
+				throw new DepartamentoNegocioException(String.format(NOME_DPT_JA_CADASTRADO, d.getNome()));
 			}
 			return repo.save(d);
 		} catch (Exception e) {
@@ -67,7 +68,7 @@ public class DepartamentoService {
 		// verificar se o nome do departamento ja pertence a outro no banco de dados
 		if (repo.existsByNomeAndIdNot(dep.getNome(), id)) {
 			throw new DepartamentoNegocioException(String
-			  .format("Já existe um departamento com nome %s cadastrado no banco de dados.", dep.getNome()));
+			  .format(NOME_DPT_JA_CADASTRADO, dep.getNome()));
 		}
 		try {
 			// copiar modificações ignorar id

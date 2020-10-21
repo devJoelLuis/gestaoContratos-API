@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.gov.sp.gestaoContrato.exceptionhandler.exceptions.DepartamentoNegocioException;
+import br.gov.sp.gestaoContrato.exceptionhandler.exceptions.EmpresaNegocioException;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
@@ -19,6 +20,15 @@ public class ApiExceptionHandler {
 		  p.setDataHora(LocalDateTime.now());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(p);  
 	}
+	
+	@ExceptionHandler(EmpresaNegocioException.class)
+	public ResponseEntity<?> tratarEmpresaoNegocioException(EmpresaNegocioException e) {
+		  ProblemaMessage p = new ProblemaMessage();
+		  p.setMenssagem(e.getMessage());
+		  p.setDataHora(LocalDateTime.now());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(p);  
+	}
+	
 	
 
 }//fecha classe
