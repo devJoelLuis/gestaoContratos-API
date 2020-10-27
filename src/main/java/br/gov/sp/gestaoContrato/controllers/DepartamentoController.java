@@ -32,7 +32,7 @@ public class DepartamentoController {
 	@PostMapping
 	public ResponseEntity<?> cadastrar(@RequestBody Departamento d) {
 			d = service.cadastrar(d);
-			return ResponseEntity.ok().body(d);
+			return ResponseEntity.status(HttpStatus.CREATED).body(d);
 	}
 	
 	

@@ -1,5 +1,7 @@
 package br.gov.sp.gestaoContrato.services;
 
+import java.util.List;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +21,7 @@ public class EmpresaService {
 	private static final Logger logger = LoggerFactory.getLogger(EmpresaService.class);
 	
 
-	// constructor
+	// constructor forçando o spring a passar uma instância do repository
 	public EmpresaService(EmpresaRepository repo) {
 		this.repo = repo;
 	}
@@ -66,11 +68,8 @@ public class EmpresaService {
 			 * 4- salvar e retornar a empresa salva.
 			 */
 			
-			Empresa empresaBanco = repo.findById(id)
-					               .orElseThrow(() -> new EmpresaNegocioException(
-					            		   String.format(EMPRESA_NAO_ENCONTRADA_ID, id)
-					            		   ));
-			if (repo.existsByNomeAndNotId(e.getNome(), id)) {
+			Empresa empresaBanco = getEmpresaPorId(id);
+			if (repo.existsByNomeAndIdNot(e.getNome(), id)) {
 				throw new EmpresaNegocioException(
 						String.format(NOME_EMPRESA_JA_CADASTRADA, e.getNome())
 						);
@@ -99,26 +98,53 @@ public class EmpresaService {
 		 * 2- tentar remover a entidade e verificar se vai haver erro de integridade. 
 		 */
 		try {
-			Empresa empresaBanco = repo.findById(id)
-		               .orElseThrow(() -> new EmpresaNegocioException(
-		            		   String.format(EMPRESA_NAO_ENCONTRADA_ID, id)
-		            		   ));
+			Empresa empresaBanco = getEmpresaPorId(id);
 			repo.delete(empresaBanco);
 		} catch (ConstraintViolationException c) {
 			throw new EmpresaNegocioException(
 					String.format("A empresa de id %s não pode ser excluída porque esta vinculada a outra entidade.", id));
 		} catch (Exception e) {
-			// TODO: handle exception
+			logger.error(String.format("Ocorreu o seguinte erro ao tentar excluir uma empresa: %s", e.getMessage()));
 		}
 		
 	}// fecha method excluir
-	
-	
-	
+
+
+
 	// get by id
+	public Empresa getById(Integer id) {
+		try {
+			Empresa empresaBanco = getEmpresaPorId(id);
+			return empresaBanco;
+		} catch (Exception e) {
+			logger.error(String.format("Ocorreu o seguinte erro ao tentar consultar uma empresa pelo id: %s", e.getMessage()));
+			return null;
+		}
+	}
+
+
+
+
+	private Empresa getEmpresaPorId(Integer id) {
+		return repo.findById(id)
+		           .orElseThrow(() -> new EmpresaNegocioException(
+		        		   String.format(EMPRESA_NAO_ENCONTRADA_ID, id)
+		        		   ));
+	}
+	
+	
+	
+	
 	
 	// get all don´t pageable
-	
+	public List<Empresa> getAll() {
+		try {
+			return repo.findAllByOrderByNomeAsc();
+		} catch (Exception e) {
+			logger.error(String.format("Ocorreu o seguinte erro ao tentar consultar todas empresa: %s", e.getMessage()));
+			return null;
+		}
+	}
 	
 	
 
